@@ -1,7 +1,8 @@
 #coding=utf-8
 import os
 import traceback
-from blog_163_util import (write_sql, translate_to_pinyin)
+from blog_163_util import (write_sql, 
+    translate_to_pinyin)
 from datetime import datetime
 
 def main():
@@ -48,8 +49,8 @@ def main():
     for file in files:
         try:
             # 读取 txt 文件
-            txt_f = open(curr_path + os.path.sep + 'txt' + os.path.sep + file, 'r')
-            iter_f = iter(txt_f)
+            txt_file = open(curr_path + os.path.sep + 'txt' + os.path.sep + file, 'r')
+            iter_file = iter(txt_file)
             count = 0
             title = ''
             created_num = 0
@@ -59,27 +60,27 @@ def main():
             views = ''
             content = ''
             # 转换成迭代器并解析
-            for line in iter_f:
-                count = count + 1
-                if(count == 1):
+            for line in iter_file:
+                count += 1
+                if count == 1:
                     title = line.strip('\n')
-                if(count == 2):
+                if count == 2:
                     created = line.strip('\n')
                     created_num = (datetime.strptime(created, '%Y-%m-%d %H:%M:%S') - datetime(1970,1,1)).total_seconds()
                     modified = line.strip('\n')
                     modified_num = (datetime.strptime(modified, '%Y-%m-%d %H:%M:%S') - datetime(1970,1,1)).total_seconds()
-                if(count == 3):
+                if count == 3:
                     category = line.strip('\n')
-                if(count == 4):
+                if count == 4:
                     tags = line.strip('\n')
-                if(count == 5):
+                if count == 5:
                     views = line.strip('\n')
-                if(count >= 6):
+                if count >= 6:
                     content = content + line.strip('\n')
-            txt_f.close()
+            txt_file.close()
             # 将解析出的分类信息写入 sql 文件
             if category != '':
-                cat_index = 0;
+                cat_index = 0
                 if not cat_mid_dict.has_key(category):
                     cat_mid_dict[category] = mid
                     cat_index = cat_mid_dict[category]
@@ -126,6 +127,6 @@ def main():
         count = tag_count_dict[tag]
         write_sql(file_name, "UPDATE `typecho_metas` SET count=" + str(count) + " WHERE mid=" + str(mid) + ";")
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
     

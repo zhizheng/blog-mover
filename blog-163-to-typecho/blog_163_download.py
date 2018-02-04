@@ -4,7 +4,7 @@ import string
 import traceback
 from blog_163_util import (get_html, 
     extract_title,
-    extract_datetime,
+    extract_date_time,
     extract_category,
     extract_tags,
     extract_views,
@@ -43,7 +43,7 @@ def main():
             if html != '':
                 # 从文章内容中解析相关字段
                 title = extract_title(html)
-                datetime = extract_datetime(html)
+                date_time = extract_date_time(html)
                 category = extract_category(html)
                 tags = extract_tags(html)
                 views = extract_views(html)
@@ -58,7 +58,7 @@ def main():
                     txt_file = open(file_name, 'a')
                     txt_file.write(title.encode("gb18030"))
                     txt_file.write('\n')
-                    txt_file.write(datetime)
+                    txt_file.write(date_time)
                     txt_file.write('\n')
                     txt_file.write(category.encode("gb18030"))
                     txt_file.write('\n')
@@ -80,6 +80,6 @@ def main():
     except Exception, e:
         traceback.print_exc()
         
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
     

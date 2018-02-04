@@ -14,7 +14,7 @@ def get_url_list(user_id, user_name):
     # 是否还有博文要获取
     has_more_blog = True
     # 本次获取起始博文的下标
-    blog_index = 0;
+    blog_index = 0
     # 本次获取博文的最大个数
     batch_num = 100
     try:
@@ -26,17 +26,17 @@ def get_url_list(user_id, user_name):
                 'scriptSessionId': '${scriptSessionId}187',
                 'c0-scriptName': 'BlogBeanNew',
                 'c0-methodName': 'getBlogs',
-                'c0-id':   '0',
-                'c0-param0': "number:" + user_id,
-                'c0-param1': "number:" + str(blog_index),
-                'c0-param2': "number:" + str(batch_num),
-                'batchId': '1',
-            };
+                'c0-id': '0',
+                'c0-param0': 'number:' + user_id,
+                'c0-param1': 'number:' + str(blog_index),
+                'c0-param2': 'number:' + str(batch_num),
+                'batchId': '1'
+            }
             post_data = urllib.urlencode(post_params)
-            req = urllib2.Request(url, post_data);
-            req.add_header('Referer', "http://api.blog.163.com/crossdomain.html?t=20100205");
-            req.add_header('Content-Type', "text/plain");
-            rsp = urllib2.urlopen(req);
+            req = urllib2.Request(url, post_data)
+            req.add_header('Referer', 'http://api.blog.163.com/crossdomain.html?t=20100205')
+            req.add_header('Content-Type', 'text/plain')
+            rsp = urllib2.urlopen(req)
             rsp_data = rsp.read()
             id_list = re.findall('permalink="blog/static/(\d+)"', rsp_data)
             
@@ -62,7 +62,7 @@ def get_html(url):
         if(url.startswith('http:') or url.startswith('https:')):
             html = urllib.urlopen(url).read().decode('gbk')
         else:
-            encoded_url = url.encode("gb18030")
+            encoded_url = url.encode('gb18030')
             html = urllib.urlopen('file:' + os.path.sep + os.path.sep + encoded_url).read().decode('gbk')
         return html
     except Exception, e:
@@ -77,43 +77,43 @@ def html_to_soup(html):
     
 def extract_title(html):
     """ 从网页内容中解析出文章标题 """
-    title = ""
+    title = ''
     try:
         soup = html_to_soup(html)
-        found_title = soup.find(attrs={"class": "tcnt"})
+        found_title = soup.find(attrs={'class': 'tcnt'})
         title = found_title.string.strip()
     except Exception, e:
         print('extract_title error:')
         traceback.print_exc()
-        title = ""
+        title = ''
 
     return title
    
-def extract_datetime(html):
+def extract_date_time(html):
     """ 从网页内容中解析出文章发布时间 """
-    datetime = ''
+    date_time = ''
     try:
         soup = html_to_soup(html)
-        found_datetime = soup.find(attrs={"class": "blogsep"})
-        datetime = found_datetime.string.strip()
+        found_date_time = soup.find(attrs={'class': 'blogsep'})
+        date_time = found_date_time.string.strip()
     except Exception, e:
         print('extract_datetime error:')
         traceback.print_exc()
-        datetime = ""
+        date_time = ''
         
-    return datetime
+    return date_time
 
 def extract_category(html):
     """ 从网页内容中解析出文章分类 """
     cat = ''
     try:
         soup = html_to_soup(html)
-        found_cat = soup.find(attrs={"class": "fc03 m2a"})
+        found_cat = soup.find(attrs={'class': 'fc03 m2a'})
         cat = found_cat.string.strip()
     except Exception, e:
         print('extract_category error:')
         traceback.print_exc()
-        cat = ""
+        cat = ''
 
     return cat
 
@@ -122,7 +122,7 @@ def extract_tags(html):
     tag_list = []
     try:
         soup = html_to_soup(html)
-        found_tag = soup.find('input', attrs={"name": "tag"})
+        found_tag = soup.find('input', attrs={'name': 'tag'})
         tag = found_tag['value']
         tag_list = tag.split('&nbsp;&nbsp;')
     except Exception, e:
@@ -137,7 +137,7 @@ def extract_views(html):
     views = '0'
     try:
         soup = html_to_soup(html)
-        found_views = soup.find(attrs={"id": "$_spaniReadCount"})
+        found_views = soup.find(attrs={'id': '$_spaniReadCount'})
         views = found_views.string.strip()
     except Exception, e:
         print('extract_views error:')
@@ -151,7 +151,7 @@ def extract_content(html):
     content = ''
     try:
         soup = html_to_soup(html)
-        found_content = soup.find(attrs={"class": "bct fc05 fc11 nbw-blog ztag"})
+        found_content = soup.find(attrs={'class': 'bct fc05 fc11 nbw-blog ztag'})
         content = found_content.text.strip()
         content = content.replace('&nbsp;','')
         content = content.replace( u'\xa0','')
@@ -184,7 +184,7 @@ def translate_to_pinyin(word):
         src = word.encode('utf-8')
         src = src.replace(' ','-')
         src = src.replace('_','-')
-        dest = pinyin.get(src, format="strip", delimiter="")
+        dest = pinyin.get(src, format='strip', delimiter='')
     except Exception, e:
         print('write sql file error:')
         traceback.print_exc()
