@@ -1,0 +1,5 @@
+wp_db_host:127.0.0.1
+wp_db_port:3306
+wp_db_user:root
+wp_db_pass:root
+wp_db_name:wp
