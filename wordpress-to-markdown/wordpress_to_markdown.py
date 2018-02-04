@@ -23,7 +23,7 @@ def main():
         if not os.path.exists(dir_name):
             os.makedirs(dir_name)
             
-        # 读取博客配置文件
+        # 读取 Wordpress 配置文件
         wp_db_host = '127.0.0.1'
         wp_db_port = 3306
         wp_db_user = ''

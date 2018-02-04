@@ -30,7 +30,7 @@ pip install progressbar
 ## 操作步骤
 
 1. 修改 wordpress_config.txt 中 Wordpress 数据库信息
-2. 执行 wordpress_to_markdown.py 从数据库中读取博文内容并生成 Markdown 文件
+2. 执行 wordpress_to_markdown.py 从数据库中读取文章内容并生成 Markdown 文件
 3. 将生成的 Markdown 文件（md/*.md）放到 Jekyll _posts 目录下，同步内容到 GitHub
 
 ## TODO
